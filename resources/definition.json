@@ -1,0 +1,23 @@
+{
+  "$id": "greeting.json",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "Greeting",
+  "description": "Greeting Policy",
+  "type": "object",
+  "@context": {
+    "@vocab": "anypoint://vocabulary/policy.yaml#",
+    "security": "anypoint://vocabulary/policy.yaml#",
+    "config": "anypoint://vocabulary/policy.yaml#"
+  },
+  "properties": {
+    "greeting": {
+      "type": "string",
+      "default": "Hello",
+      "description": "Greeting message used in x-greeting response header"
+    }
+  },
+  "required": [
+    "greeting"
+  ],
+  "additionalProperties": false
+}

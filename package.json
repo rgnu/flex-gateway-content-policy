@@ -1,0 +1,16 @@
+{
+    "name": "flex-gateway-as-policy-template",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "asbuild": "asc assembly/index.ts --target release"
+    },
+    "license": "ISC",
+    "devDependencies": {
+        "@rgnu/flex-gateway-as-sdk": "github:rgnu/flex-gateway-as-sdk#66193adfbef700192b02c0e737726c38edbc46a3",
+        "assemblyscript": "^0.19.22"
+    },
+    "type": "module"
+
+}
