@@ -60,3 +60,19 @@ policy.%.delete: command.exist.$(CURL) policy.%.pre-delete
 
 policy.%.pre-delete:
 	$(call LOG_INFO,Pre Delete Policy $(NAME)@$(VERSION))
+
+.PHONY: policy.build
+policy.build: command.exist.$(NPM) node_modules ## Policy Build
+	$(NPM) run asbuild
+
+.PHONY: policy.test
+policy.test: IMAGE?=mulesoft/flex-gateway:1.8.0
+policy.test: PLATFORM?=
+policy.test: ## Policy Test into Flex Gateway (IMAGE=mulesoft/flex-gateway:1.8.0)
+	docker run -m 512M --memory-swap 512M --cpus 0.5 --tmpfs /var/tmp --read-only \
+    $(addprefix --platform ,$(PLATFORM)) \
+    -v $(CURDIR)/resources/flex-config.yaml:/etc/mulesoft/flex-gateway/conf.d/user/flex-config.yaml \
+	 -v $(CURDIR)/resources/flex-registration.yaml:/etc/mulesoft/flex-gateway/conf.d/user/flex-registration.yaml \
+    -v $(CURDIR)/build/release.wasm:/etc/mulesoft/flex-gateway/conf.d/user/release.wasm \
+	-p 8081:8081 \
+    --rm $(IMAGE)

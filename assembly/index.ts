@@ -6,13 +6,25 @@ import {
     FilterHeadersStatusValues,
     FlexContext,
     FlexRootContext,
+    HeaderPair,
+    Headers,
+    makeHeaderPair,
     registerRootContext
 } from "@rgnu/flex-gateway-as-sdk";
 
 //@ts-ignore
 @serializable
+class Header {
+    name: string = ""
+    value: string = ""
+}
+
+//@ts-ignore
+@serializable
 class FilterConfig {
-    greeting: string = "Hello"
+    status: u32 = 200
+    headers: Array<Header> = []
+    body: string = ""
 }
 
 export class FilterRoot extends FlexRootContext<FilterConfig> {
@@ -22,17 +34,27 @@ export class FilterRoot extends FlexRootContext<FilterConfig> {
 }
 
 class Filter extends FlexContext<FilterRoot> {
-    config: FilterConfig
+    status: u32
+    headers: Headers
+    body: ArrayBuffer
 
     constructor(context_id: u32, root_context: FilterRoot, config: FilterConfig) {
         super(context_id, root_context);
-        this.config = config
+
+        this.status = config.status;
+        this.headers = config.headers.map<HeaderPair>((value) => makeHeaderPair(value.name, value.value));
+        this.body = String.UTF8.encode(config.body);
     }
 
-    onResponseHeaders(a: u32, end: bool): FilterHeadersStatusValues {
-        this.addResponseHeader("x-greeting", this.config.greeting);
+    onResponseHeaders(a: u32, end_of_stream: bool): FilterHeadersStatusValues {
+        this.getRootContext().sendHttpResponse(
+            this.status,
+            "",
+            this.body,
+            this.headers,
+        )
 
-        return FilterHeadersStatusValues.Continue;
+        return FilterHeadersStatusValues.StopIteration;
     }
 }
 

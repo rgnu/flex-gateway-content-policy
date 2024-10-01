@@ -1,8 +1,8 @@
 {
-  "$id": "greeting.json",
+  "$id": "content.json",
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "title": "Greeting",
-  "description": "Greeting Policy",
+  "title": "Content",
+  "description": "Content Policy",
   "type": "object",
   "@context": {
     "@vocab": "anypoint://vocabulary/policy.yaml#",
@@ -10,14 +10,36 @@
     "config": "anypoint://vocabulary/policy.yaml#"
   },
   "properties": {
-    "greeting": {
+    "status": {
+      "type": "integer",
+      "default": "200",
+      "description": "Response Status Code"
+    },
+    "headers": {
+      "type": "array",
+      "description": "Response Headers",
+      "items": {
+        "type": "object",
+        "required": ["name", "value"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "default": []
+    },
+    "body": {
       "type": "string",
-      "default": "Hello",
-      "description": "Greeting message used in x-greeting response header"
+      "description": "Response body",
+      "default": ""
     }
   },
   "required": [
-    "greeting"
+    "status"
   ],
   "additionalProperties": false
 }

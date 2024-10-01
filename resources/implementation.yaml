@@ -1,5 +1,5 @@
 #%Policy Implementation 1.0
-name: Greeting-Flex
+name: Response-Content-Flex
 technology: flexGateway
 minRuntimeVersion: "1.6.0"
-maxRuntimeVersion: "1.8.0"
+maxRuntimeVersion: "1.9.0"

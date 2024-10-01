@@ -1,6 +1,6 @@
 #%Policy Definition 0.1
-name: Greeting
-description: Greeting Policy
+name: Response Content
+description: Response Content Policy
 category: Other
 providedCharacteristics: []
 requiredCharacteristics: []

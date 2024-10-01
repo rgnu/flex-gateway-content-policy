@@ -1,0 +1,39 @@
+---
+apiVersion: gateway.mulesoft.com/v1alpha1
+kind: Extension
+metadata:
+  name: response-content
+spec:
+  extends:
+    - name: envoy-filter
+    - name: proxy-wasm-filter
+  properties:
+    rootId:
+      type: string
+      default: main
+    implementation:
+      type: string
+      default: file:///etc/mulesoft/flex-gateway/conf.d/user/release.wasm
+---
+apiVersion: gateway.mulesoft.com/v1alpha1
+kind: ApiInstance
+metadata:
+  name: ingress-http
+spec:
+  address: http://0.0.0.0:8081/
+
+  policies:
+    - policyRef:
+        name: response-content
+      config:
+        status: 200
+        headers:
+          - name: content-type
+            value: application/json
+        body: |
+          {
+            "message": "Hello from Flex"
+          }
+      rules:
+      - path: /hello
+

@@ -10,10 +10,6 @@ NPM?=npm
 node_modules:
 	$(NPM) install
 
-.PHONY: build
-policy.build: command.exist.$(NPM) node_modules ## Policy Build
-	$(NPM) run asbuild
-
 .PHONY: help
 help: ## Shows this help
 	@echo 'Usage: make <target>'
