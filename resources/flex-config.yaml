@@ -1,5 +1,14 @@
 ---
 apiVersion: gateway.mulesoft.com/v1alpha1
+kind: Configuration
+metadata:
+  name: logging
+spec:
+  logging:
+    runtimeLogs:
+      logLevel: debug
+---
+apiVersion: gateway.mulesoft.com/v1alpha1
 kind: Extension
 metadata:
   name: response-content

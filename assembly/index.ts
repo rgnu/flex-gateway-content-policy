@@ -46,7 +46,14 @@ class Filter extends FlexContext<FilterRoot> {
         this.body = String.UTF8.encode(config.body);
     }
 
-    onResponseHeaders(a: u32, end_of_stream: bool): FilterHeadersStatusValues {
+    onRequestHeaders(_num_headers: u32, _end_of_stream: bool): FilterHeadersStatusValues {
+        super.onRequestHeaders(_num_headers, _end_of_stream);
+
+        const method = this.getRequestHeader(":method");
+        const path = this.getRequestHeader(":path");
+
+        this.logDebug(` ${method} ${path} ${this.status}`);
+
         this.getRootContext().sendHttpResponse(
             this.status,
             "",
